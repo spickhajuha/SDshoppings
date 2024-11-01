@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SD SHOPPINGS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .sms-button {
+            background-color: #4CA050;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .sms-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Fill the Details Carefully</h2>
+    <form id="purchaseFormDetails">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="number" id="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" required>
+                <option>U.P.</option>
+                <option>M.P.</option>
+                <option>Maharashtra</option>
+                <option>Rajasthan</option>
+                <option>Himachal Pradesh</option>
+                <option>Jharkhand</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="district">District:</label>
+            <input type="text" id="district" required>
+        </div>
+        <div class="form-group">
+            <label for="pincode">Pincode:</label>
+            <input type="number" id="pincode" required>
+        </div>
+        <div class="form-group">
+            <label for="village">Village/Gali Name:</label>
+            <input type="text" id="village" required>
+        </div>
+        <div class="form-group">
+            <label for="houseNo">House No/Address:</label>
+            <input type="text" id="houseNo" required>
+        </div>
+            
+     
+        <div class="form-group">
+
+            <input type="hidden" id="code" readonly>
+        </div>
+        
+       
+                <div class="form-group">
+                                
+        <input type="hidden" id="price"> 
+</div>
+        <button type="button" class="sms-button" id="sendSmsButton">Send SMS</button>
+    </form>
+
+    <script>
+        // Function to get URL parameters
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        // On page load, populate the form with URL parameters
+        window.onload = function() {
+            const params = getQueryParams();
+            const code = params.code || '';
+            const price = params.total || '';
+
+            document.getElementById('productCode').value = productCode; // Hidden field
+            document.getElementById('productCodeDisplay').value = productCode; // Hidden field
+            document.getElementById('totalPrice').value = totalPrice; // Hidden field
+        };
+
+        // Function to handle SMS button click and create SMS link
+        document.getElementById('sendSmsButton').addEventListener('click', function() {
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const pincode = document.getElementById('pincode').value;
+            const village = document.getElementById('village').value;
+            const houseNo = document.getElementById('houseNo').value;
+            const code = document.getElementById('code').value;
+            const price = document.getElementById('price').value;
+
+            // Construct SMS message
+            const messageText = `Name: ${name}, Phone: ${phone}, State: ${state}, District: ${district}, Pincode: ${pincode}, Village: ${village}, Address: ${houseNo}, Product Code: ${code}, Total Price: ₹${price}`;
+
+            // Set the href attribute with the dynamic message
+            const smsLink = `smsto:614462626?body=${encodeURIComponent(messageText)}`;
+            window.location.href = smsLink; // Open SMS app
+
+            alert("SMS link created! Your messaging app should open.");
+        });
+    </script>
+</body>
+</html>
